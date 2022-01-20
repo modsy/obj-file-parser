@@ -12,6 +12,7 @@ class OBJFile {
     };
     this.currentMaterial = '';
     this.currentGroup = '';
+    this.groups = [];
     this.smoothingGroup = 0;
   }
 
@@ -73,8 +74,6 @@ class OBJFile {
         vertexNormals: [],
         faces: []
       });
-      this.currentGroup = '';
-      this.smoothingGroup = 0;
     }
 
     return this.result.models[this.result.models.length - 1];
@@ -90,13 +89,22 @@ class OBJFile {
       faces: []
     });
     this.currentGroup = '';
+    this.groups = [];
     this.smoothingGroup = 0;
   }
 
   _parseGroup(lineItems) {
     if (lineItems.length != 2) { throw 'Group statements must have exactly 1 argument (eg. g group_1)'; }
 
-    this.currentGroup = lineItems[1];
+    this.currentGroup = this._getUniqueGroupName(lineItems[1]);
+    this.groups.push(this.currentGroup);
+  }
+
+  _getUniqueGroupName(name) {
+    if (this.groups.includes(name)) {
+      return this._getUniqueGroupName(`${name}${this.groups.length}`);
+    }
+    return name;
   }
 
   _parseVertexCoords(lineItems) {
@@ -151,7 +159,15 @@ class OBJFile {
 
       // Negative vertex indices refer to the nth last defined vertex
       // convert these to postive indices for simplicity
-      if (vertexIndex < 0) { vertexIndex = this._currentModel().vertices.length + 1 + vertexIndex; }
+      if (vertexIndex < 0) {
+        vertexIndex = this._currentModel().vertices.length + vertexIndex;
+      }
+      if (textureCoordsIndex && (textureCoordsIndex < 0)) {
+        textureCoordsIndex = this._currentModel().textureCoords.length + textureCoordsIndex;
+      }
+      if (vertexNormalIndex && (vertexNormalIndex < 0)) {
+        vertexNormalIndex = this._currentModel().vertexNormals.length + vertexNormalIndex;
+      }
 
       face.vertices.push({
         vertexIndex,
