@@ -184,9 +184,9 @@ var OBJFile = function () {
           throw 'Too many values (separated by /) for a single vertex' + this.filePath + this.lineNumber;
         }
 
-        var vertexIndex = 0;
-        var textureCoordsIndex = 0;
-        var vertexNormalIndex = 0;
+        var vertexIndex = null;
+        var textureCoordsIndex = null;
+        var vertexNormalIndex = null;
         vertexIndex = parseInt(vertexValues[0]);
         if (vertexValues.length > 1 && vertexValues[1] != '') {
           textureCoordsIndex = parseInt(vertexValues[1]);
@@ -195,7 +195,7 @@ var OBJFile = function () {
           vertexNormalIndex = parseInt(vertexValues[2]);
         }
 
-        if (vertexIndex == 0) {
+        if (vertexIndex === null) {
           throw 'Faces uses invalid vertex index of 0';
         }
 
@@ -203,12 +203,22 @@ var OBJFile = function () {
         // convert these to postive indices for simplicity
         if (vertexIndex < 0) {
           vertexIndex = this._currentModel().vertices.length + vertexIndex;
+        } else {
+          vertexIndex -= 1;
         }
-        if (textureCoordsIndex && textureCoordsIndex < 0) {
-          textureCoordsIndex = this._currentModel().textureCoords.length + textureCoordsIndex;
+        if (textureCoordsIndex !== null) {
+          if (textureCoordsIndex < 0) {
+            textureCoordsIndex = this._currentModel().textureCoords.length + textureCoordsIndex;
+          } else {
+            textureCoordsIndex -= 1;
+          }
         }
-        if (vertexNormalIndex && vertexNormalIndex < 0) {
-          vertexNormalIndex = this._currentModel().vertexNormals.length + vertexNormalIndex;
+        if (vertexNormalIndex !== null) {
+          if (vertexNormalIndex < 0) {
+            vertexNormalIndex = this._currentModel().vertexNormals.length + vertexNormalIndex;
+          } else {
+            vertexNormalIndex -= 1;
+          }
         }
 
         face.vertices.push({

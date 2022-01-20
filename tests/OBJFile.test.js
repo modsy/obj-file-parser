@@ -80,9 +80,9 @@ describe('OBJ File Parser', () => {
       const model = new OBJFile(fileContents).parse().models[0];  
       expect(model.faces.length).toBe(1);
       expect(model.faces[0].vertices).toEqual([
-        { vertexIndex: 1, textureCoordsIndex: 0, vertexNormalIndex: 0 },
-        { vertexIndex: 2, textureCoordsIndex: 0, vertexNormalIndex: 0 },
-        { vertexIndex: 3, textureCoordsIndex: 0, vertexNormalIndex: 0 }
+        { vertexIndex: 0, textureCoordsIndex: null, vertexNormalIndex: null },
+        { vertexIndex: 1, textureCoordsIndex: null, vertexNormalIndex: null },
+        { vertexIndex: 2, textureCoordsIndex: null, vertexNormalIndex: null }
       ]);
     });
 
@@ -91,9 +91,9 @@ describe('OBJ File Parser', () => {
       const model = new OBJFile(fileContents).parse().models[0];  
       expect(model.faces.length).toBe(1);
       expect(model.faces[0].vertices).toEqual([
-        { vertexIndex: 1, textureCoordsIndex: 4, vertexNormalIndex: 0 },
-        { vertexIndex: 2, textureCoordsIndex: 5, vertexNormalIndex: 0 },
-        { vertexIndex: 3, textureCoordsIndex: 6, vertexNormalIndex: 0 }
+        { vertexIndex: 0, textureCoordsIndex: 3, vertexNormalIndex: null },
+        { vertexIndex: 1, textureCoordsIndex: 4, vertexNormalIndex: null },
+        { vertexIndex: 2, textureCoordsIndex: 5, vertexNormalIndex: null }
       ]);
     });
 
@@ -102,9 +102,9 @@ describe('OBJ File Parser', () => {
       const model = new OBJFile(fileContents).parse().models[0];  
       expect(model.faces.length).toBe(1);
       expect(model.faces[0].vertices).toEqual([
+        { vertexIndex: 0, textureCoordsIndex: 3, vertexNormalIndex: 6 },
         { vertexIndex: 1, textureCoordsIndex: 4, vertexNormalIndex: 7 },
-        { vertexIndex: 2, textureCoordsIndex: 5, vertexNormalIndex: 8 },
-        { vertexIndex: 3, textureCoordsIndex: 6, vertexNormalIndex: 9 }
+        { vertexIndex: 2, textureCoordsIndex: 5, vertexNormalIndex: 8 }
       ]);
     });
 
@@ -113,9 +113,9 @@ describe('OBJ File Parser', () => {
       const model = new OBJFile(fileContents).parse().models[0];  
       expect(model.faces.length).toBe(1);
       expect(model.faces[0].vertices).toEqual([
-        { vertexIndex: 1, textureCoordsIndex: 0, vertexNormalIndex: 7 },
-        { vertexIndex: 2, textureCoordsIndex: 0, vertexNormalIndex: 8 },
-        { vertexIndex: 3, textureCoordsIndex: 0, vertexNormalIndex: 9 }
+        { vertexIndex: 0, textureCoordsIndex: null, vertexNormalIndex: 6 },
+        { vertexIndex: 1, textureCoordsIndex: null, vertexNormalIndex: 7 },
+        { vertexIndex: 2, textureCoordsIndex: null, vertexNormalIndex: 8 }
       ]);
     });
   });
